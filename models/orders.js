@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const item = require('./items');
+const user=require('./users')
 const Schema = mongoose.Schema;
 
 
@@ -10,7 +11,7 @@ const OrderSchema = new Schema({
     }],
     totalPrice: { type: Number, required=false },
     status: { type: String, required=true },
-    createmongoosey: { type: Schema.Types.ObjectId, required: true }
+    createdby: { type: user, required: true }
 
 })
 

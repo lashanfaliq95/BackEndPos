@@ -3,13 +3,10 @@ var router = express.Router();
 const users=require('../controllers/users.controllers.js');
 
 
-/* GET users listing. */
-router.get('/', users.findAll);
+/* Autheticate user */
+router.post('/authenticate',users.authenticate);
 
-router.get('/userid',users.findOne);
-
-router.get('/:username/:password',users.authenticate);
-
+/* Create user */
 router.post('/createuser',users.createUser);
 
 
