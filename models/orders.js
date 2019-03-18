@@ -5,13 +5,22 @@ const Schema = mongoose.Schema;
 
 
 const OrderSchema = new Schema({
+    _id:{ type: Number, require=true,unique=true },
     items: [{
-        item: { type: item, required: true },
+        item:  {
+            type: mongoose.Schema.Types.Objectid,
+            ref: 'item',
+            required=true
+        },
         orderamount: { type: Number, require=true }
     }],
     totalPrice: { type: Number, required=false },
     status: { type: String, required=true },
-    createdby: { type: user, required: true }
+    createdby: {
+        type: mongoose.Schema.Types.Objectid,
+        ref: 'user',
+        required=true
+    }
 
 })
 

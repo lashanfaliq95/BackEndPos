@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
-const items=require('../controllers/items.controllers.js');
+const items=require('../controllers/items.controllers');
 
 /* Add item */
-router.post('/additem',items.addItem);
+router.post('/createitem',items.createItem);
 
 /* Remove item */
-router.post('/removeitem',items.removeItem);
+router.delete('/removeitem/:id',items.removeItem);
 
 /* Get item */
-router.post('/getitem',items.getItem);
+router.get('/getitem/:id',items.getItem);
 
 /* Update item */
-router.post('/updateitem',items.updateItem);
+router.put('/updateitem/:id',items.updateItemQty);
 
 module.exports = router;

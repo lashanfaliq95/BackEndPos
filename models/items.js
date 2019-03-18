@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
-    _id:{
-        type:Number,
-        required:true
-    },
     name: {
         type: String,
         required: true
@@ -20,5 +16,5 @@ const ItemSchema = new Schema({
     }
 });
 
-const item = new Schema('item', ItemSchema);
+const item = mongoose.model('item', ItemSchema);
 module.exports = item;
