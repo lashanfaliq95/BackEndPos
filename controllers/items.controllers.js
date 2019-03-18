@@ -56,7 +56,7 @@ exports.removeItem = (req, res, next) => {
                 return res.send(item);
             })
             .catch((err) => {
-                if (err.kind === 'ObjectId') {
+                if (err.kind === 'Objectid') {
                     return res.status(404).send({
                         message: "item not found with itemid" + req.params.id
                     });
@@ -75,7 +75,7 @@ exports.updateItemQty = (req, res, next) => {
     console.log(req.body);
     if (req.params.id ) {
         item.findOneAndUpdate({ id: req.params.id },
-            { $inc: { "qtyonstock": req.body.qtyonstock } })
+            { $inc: { "qtyonstock": req.body.value } })
             .then((item)=>{
                 if (!item) {
                     return res.status(404).send({
