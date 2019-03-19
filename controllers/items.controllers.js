@@ -39,6 +39,11 @@ exports.getItem = (req, res, next) => {
                 next(err);
             });
     }
+    else{
+        return res.status(400).send({
+            message: "insert an order _id"
+        });
+    }
 
 };
 
@@ -98,5 +103,19 @@ exports.updateItemQty = (req, res, next) => {
             });
     }
 
+};
+
+
+// update an items quantity on stock
+exports.setItemQtyThroughOrder = (item_id,newQty) => {
+     item.findOneAndUpdate({ _id: item_id},
+            { $set: { "qtyonstock": newQty } })
+            .then((item)=>{
+            console.log(item);
+         })
+            .catch((err)=>{
+                console.log(err);
+               });
+    
 };
 

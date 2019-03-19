@@ -1,25 +1,21 @@
 const mongoose = require('mongoose');
-const item = require('./items');
-const user=require('./users')
 const Schema = mongoose.Schema;
+const item = require('./items');
+const user = require('./users');
 
 
 const OrderSchema = new Schema({
-    _id:{ type: Number, require=true,unique=true },
     items: [{
-        item:  {
-            type: mongoose.Schema.Types.Objectid,
-            ref: 'item',
-            required=true
+        item: {
+            type: Schema.Types.ObjectId,
+            ref: 'item'
         },
-        orderamount: { type: Number, require=true }
+        orderamount: { type: Number }
     }],
-    totalPrice: { type: Number, required=false },
-    status: { type: String, required=true },
+    status: { type: String },
     createdby: {
-        type: mongoose.Schema.Types.Objectid,
-        ref: 'user',
-        required=true
+        type: Schema.Types.ObjectId,
+        ref: 'user'
     }
 
 })

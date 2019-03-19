@@ -41,7 +41,7 @@ exports.createUser = (req, res, next) => {
         const newUser = new user(req.body);
         newUser.save()
             .then(data => {
-                return res.redirect(302, '/ ')
+                return res.send(302, data)
             })
             .catch(err => {
                 return next(err);

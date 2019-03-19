@@ -10,6 +10,7 @@ const dbConfig = require('./config/database.config');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const items=require('./routes/items');
+const orders=require('./routes/orders');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/items', items);
+app.use('/orders', orders);
 
 
 
