@@ -19,6 +19,18 @@ exports.createItem = (req, res, next) => {
     }
 };
 
+//get all items
+exports.getAllItems = (req, res, next) => {
+    item.find()
+        .then((item) => {
+            
+            return res.status(200).send(item);
+        })
+        .catch(err => {
+            console.log(err);
+            next(err);
+        });
+};
 
 // Get the item
 exports.getItem = (req, res, next) => {
@@ -119,14 +131,3 @@ exports.setItemQtyThroughOrder = (item_id, newQty) => {
 
 };
 
-exports.getItemhroughOrder = (item_id) => {
-    item.findOne({ _id: item_id })
-        .then((item) => {
-
-            return Promise.all(item);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-
-};

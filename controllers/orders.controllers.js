@@ -210,23 +210,26 @@ exports.removeItemsOnOrder = (req, res, next) => {
                     });
                 }
                 if (mongoose.Types.ObjectId.isValid(req.params.item_id)) {
-                    console.log(order.items);
+                    console.log(req.params.item_id);
                     const items = order.items;
+                    console.log(items);
 
                     //find the index of the item we need to change
                     index = items.findIndex(x => x.item._id == req.params.item_id);
-                    console.log(items[index].item.qtyonstock);
+                    console.log(index);
                     const orderamount = items[index].orderamount;
 
                     //remove all items from order
                     const newqty = items[index].item.qtyonstock + orderamount;
                     item.setItemQtyThroughOrder(items[index].item._id, newqty)
 
+                    console.log('index'+items[index].item);
                     //remove item from array
+                    const removeditem=items[index].item;
                     order.items.splice(index, 1);
                     order.save();
 
-                    return res.status(200).send(order);
+                    return res.status(200).send(removeditem);
                 }
                 else {
                     return res.status(400).send({
@@ -261,18 +264,6 @@ exports.addItemToAnOrder = (req, res, next) => {
                     });
                 }
                 if (mongoose.Types.ObjectId.isValid(req.params.item_id)) {
-                    console.log(order.items);
-                    const items = order.items;
-
-                    //push the item id to the items array
-                    //                     const nitem= await item.getItemhroughOrder(req.params.item_id);
-
-                    //                     nitem.then(
-                    //                         (item)=>{
-                    // console.log('asdasd'+item);
-                    //                         }
-                    //                     )
-
 
                     itemModel.findOne({ _id: req.params.item_id })
                         .then((item) => {
@@ -287,7 +278,7 @@ exports.addItemToAnOrder = (req, res, next) => {
                         });
 
 
-                    
+
                 }
                 else {
                     return res.status(400).send({

@@ -11,6 +11,9 @@ router.delete('/removeitem/:id',items.removeItem);
 /* Get item */
 router.get('/getitem/:id',items.getItem);
 
+/* Get all items */
+router.get('/getallitems',items.getAllItems);
+
 /* Update item */
 router.put('/updateitem/:id',items.updateItemQty);
 
