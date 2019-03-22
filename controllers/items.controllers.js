@@ -12,19 +12,19 @@ exports.createItem = (req, res, next) => {
             .catch(err => {
                 return next(err);
             });
-    }else{
-    return res.status(400).send({
-        message: "cannot create item,please insert the required fields"
-    });
+    } else {
+        return res.status(400).send({
+            message: "cannot create item,please insert the required fields"
+        });
     }
 };
 
 
 // Get the item
 exports.getItem = (req, res, next) => {
-  
+
     if (req.params.id) {
-        
+
         item.findOne({ id: req.params.id })
             .then((item) => {
                 if (!item) {
@@ -39,7 +39,7 @@ exports.getItem = (req, res, next) => {
                 next(err);
             });
     }
-    else{
+    else {
         return res.status(400).send({
             message: "insert an order _id"
         });
@@ -78,10 +78,10 @@ exports.removeItem = (req, res, next) => {
 exports.updateItemQty = (req, res, next) => {
     console.log(req.params.id);
     console.log(req.body);
-    if (req.params.id ) {
+    if (req.params.id) {
         item.findOneAndUpdate({ id: req.params.id },
             { $inc: { "qtyonstock": req.body.value } })
-            .then((item)=>{
+            .then((item) => {
                 if (!item) {
                     return res.status(404).send({
                         message: "item not found with id  " + req.body.id
@@ -90,7 +90,7 @@ exports.updateItemQty = (req, res, next) => {
                 return res.send(item);
 
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log(err);
                 if (err.kind === 'ObjectId') {
                     return res.status(404).send({
@@ -107,15 +107,26 @@ exports.updateItemQty = (req, res, next) => {
 
 
 // update an items quantity on stock
-exports.setItemQtyThroughOrder = (item_id,newQty) => {
-     item.findOneAndUpdate({ _id: item_id},
-            { $set: { "qtyonstock": newQty } })
-            .then((item)=>{
+exports.setItemQtyThroughOrder = (item_id, newQty) => {
+    item.findOneAndUpdate({ _id: item_id },
+        { $set: { "qtyonstock": newQty } })
+        .then((item) => {
             console.log(item);
-         })
-            .catch((err)=>{
-                console.log(err);
-               });
-    
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
 };
 
+exports.getItemhroughOrder = (item_id) => {
+    item.findOne({ _id: item_id })
+        .then((item) => {
+
+            return Promise.all(item);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+};

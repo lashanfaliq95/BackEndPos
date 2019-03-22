@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
+const cors = require('cors')
 
 const dbConfig = require('./config/database.config');
 const routes = require('./routes/index');
@@ -14,9 +15,14 @@ const orders=require('./routes/orders');
 
 var app = express();
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+//to fix the https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
+app.use(cors());
 
 app.use(favicon());
 app.use(logger('dev'));

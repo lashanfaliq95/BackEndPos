@@ -15,7 +15,12 @@ exports.authenticate = (req, res, next) => {
                 const match = await bcrypt.compare(req.body.password, user.password);
                 if (match) {
                     console.log('user authenticated');
-                    res.send(user);
+                    res.status(200).send(user);
+                }
+                else{
+                    res.status(204).send({
+                        message :"username does not match password"
+                    })
                 }
             })
             .catch(err => {
