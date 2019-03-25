@@ -1,29 +1,30 @@
 var express = require('express');
 var router = express.Router();
 const orders=require('../controllers/orders.controllers');
+const requireLogin=require('../controllers/require_login')
 
 /* Add order */
-router.post('/createorder',orders.createOrder);
+router.post('/createorder',requireLogin,orders.createOrder);
 
 /* Remove order */
-router.delete('/removeorder/:_id',orders.removeOrder);
+router.delete('/removeorder/:_id',requireLogin,orders.removeOrder);
 
 /* Get order */
-router.get('/getorder/:_id',orders.getOrder);
+router.get('/getorder/:_id',requireLogin,orders.getOrder);
 
 /* Get all orders*/
-router.get('/getallorders',orders.getAllOrders);
+router.get('/getallorders',requireLogin,orders.getAllOrders);
 
 /* Update order */
-router.put('/updateorder/:_id',orders.updateOrder);
+router.put('/updateorder/:_id',requireLogin,orders.updateOrder);
 
 /* Update items on order*/
-router.put('/updateorderitems/:_id/:item_id',orders.updateItemsOnOrder);
+router.put('/updateorderitems/:_id/:item_id',requireLogin,orders.updateItemsOnOrder);
 
 /* remove items on order*/
-router.put('/removeorderitems/:_id/:item_id',orders.removeItemsOnOrder);
+router.put('/removeorderitems/:_id/:item_id',requireLogin,orders.removeItemsOnOrder);
 
 /* Update items on order*/
-router.put('/addorderitems/:_id/:item_id',orders.addItemToAnOrder);
+router.put('/addorderitems/:_id/:item_id',requireLogin,orders.addItemToAnOrder);
 
 module.exports = router;    

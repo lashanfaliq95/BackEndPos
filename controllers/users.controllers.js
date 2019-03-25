@@ -15,7 +15,16 @@ exports.authenticate = (req, res, next) => {
                 const match = await bcrypt.compare(req.body.password, user.password);
                 if (match) {
                     console.log('user authenticated');
-                    res.status(200).send(user);
+                    req.session.regenerate(function(err) {
+                        console.log('done');
+                        req.session.user = user;
+                        console.log(req.session)
+                        console.log(req.session.id);
+                        req.user=user;
+                        res.status(200).send(user);
+                      })
+
+                    
                 }
                 else{
                     res.status(204).send({
@@ -55,3 +64,16 @@ exports.createUser = (req, res, next) => {
     }
 
 };
+
+
+// Create a new user
+exports.logout = (req, res, next) => {
+    console.log('test')
+  //invalidate the session
+  req.session.destroy();
+    return res.status(200).send({
+        message: "user session successfully deleted"
+    });
+
+};
+
