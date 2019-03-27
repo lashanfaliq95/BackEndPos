@@ -227,6 +227,7 @@ exports.removeItemsOnOrder = (req, res, next) => {
                     //remove item from array
                     const removeditem=items[index].item;
                     order.items.splice(index, 1);
+                    console.log(order.items)
                     order.save();
 
                     return res.status(200).send(removeditem);
@@ -298,3 +299,4 @@ exports.addItemToAnOrder = (req, res, next) => {
         });
     }
 };
+
