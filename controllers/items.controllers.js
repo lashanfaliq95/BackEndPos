@@ -3,17 +3,17 @@ const item = require('../models/items');
 
 // Create an item
 exports.createItem = (req, res, next) => {
-    if (req.body.id && req.body.name && req.body.price && req.body.qtyonstock) {
+    if (req.body.name && req.body.price && req.body.qtyonstock) {
         const newItem = new item(req.body);
         newItem.save()
             .then(item => {
-                return res.send(item)
+                return res.status(200).send(item);
             })
             .catch(err => {
-                return next(err);
+                next(err);
             });
     } else {
-        return res.status(400).send({
+        return res.status(404).send({
             message: "cannot create item,please insert the required fields"
         });
     }
@@ -37,7 +37,7 @@ exports.getItem = (req, res, next) => {
 
     if (req.params.id) {
 
-        item.findOne({ id: req.params.id })
+        item.findOne({ _id: req.params.id })
             .then((item) => {
                 if (!item) {
                     return res.status(404).send({
@@ -63,14 +63,15 @@ exports.getItem = (req, res, next) => {
 exports.removeItem = (req, res, next) => {
     console.log(req.params.id);
     if (req.params.id) {
-        item.findOneAndDelete({ id: req.params.id })
+        item.findOneAndDelete({ _id: req.params.id })
             .then((item) => {
+                console.log(item)
                 if (!item) {
                     return res.status(404).send({
                         message: "item not found with id  " + req.params.id
                     });
                 }
-                return res.send(item);
+                return res.status(200).send(item);
             })
             .catch((err) => {
                 if (err.kind === 'Objectid') {
@@ -91,7 +92,7 @@ exports.updateItemQty = (req, res, next) => {
     console.log(req.params.id);
     console.log(req.body);
     if (req.params.id) {
-        item.findOneAndUpdate({ id: req.params.id },
+        item.findOneAndUpdate({ _id: req.params.id },
             { $inc: { "qtyonstock": req.body.value } })
             .then((item) => {
                 if (!item) {

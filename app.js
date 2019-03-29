@@ -8,15 +8,14 @@ const mongoose=require('mongoose');
 const cors = require('cors')
 const session=require('express-session');
 const MongoStore = require('connect-mongo')(session);
-var FileStore = require('session-file-store')(session);
 
-const dbConfig = require('./config/database.config');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const items=require('./routes/items');
 const orders=require('./routes/orders');
+const config=require('config');
 
-const userModel=require('./models/users');
+const dbUrl=config.get('dbConfig.url');   
 
 var app = express();
 
@@ -46,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-mongoose.connect(dbConfig.url, {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true
 }).then(() => {
     console.log("Successfully connected to the database");    
