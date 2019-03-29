@@ -56,7 +56,6 @@ exports.createUser = (req, res, next) => {
 
 // Create a new user
 exports.logout = (req, res, next) => {
-  console.log("test");
   //invalidate the session
   req.session.destroy();
   return res.status(200).send({

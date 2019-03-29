@@ -1,26 +1,26 @@
 //During the test the env variable is set to test
 process.env.NODE_ENV = "test";
 
-let mongoose = require("mongoose");
-let Items = require("../models/items");
+
+const Items = require("../models/items");
+const Users = require("../models/users");
 
 //Require the dev-dependencies
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require("../app");
 let should = chai.should();
-let Users = require("../models/users");
-
 chai.use(chaiHttp);
 
-//now let's login the user before we run any tests
+//create a agent to keep session state
 var authenticatedUser = chai.request.agent(server);
+const userCredentials = {
+  username: "admin",
+  password: "admin"
+};
 
 before(done => {
-  const userCredentials = {
-    username: "admin",
-    password: "admin"
-  };
+  //create an user and get session
   authenticatedUser
     .post("/users/createuser")
     .send(userCredentials)
@@ -33,9 +33,24 @@ before(done => {
             done();
           });
       }
-     
     });
 });
+
+after(done => {
+  //
+  authenticatedUser
+    .post("/users/logout")
+    .end((err, res) => {
+    if(!err)console.log('logged out');
+    });
+
+    Users.remove({}, err => {
+      done();
+    });
+
+
+});
+
 //Our parent block
 describe("Items", () => {
   beforeEach(done => {
@@ -77,12 +92,10 @@ describe("Items", () => {
         qtyonstock: 5
       });
       item.save((err, item) => {
-       
-        console.log(item);
         authenticatedUser
           .del("/items/removeitem/" + item._id)
           .end((err, res) => {
-            console.log(err)
+           
             res.should.have.status(200);
             res.body.should.be.a("object");
             res.body.should.have.property("name").eql(item.name);
