@@ -8,13 +8,13 @@ const requireLogin=require('../controllers/require_login');
 router.post('/createitem',requireLogin,items.createItem);
 
 /* Remove item */
-router.delete('/removeitem/:id',items.removeItem);
+router.delete('/removeitem/:id',requireLogin,items.removeItem);
 
 /* Get item */
 router.get('/getitem/:id',requireLogin,items.getItem);
 
 /* Get all items */
-router.get('/getallitems',items.getAllItems);
+router.get('/getallitems',requireLogin,items.getAllItems);
 
 /* Update item */
 router.put('/updateitem/:id',requireLogin,items.updateItemQty);

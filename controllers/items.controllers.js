@@ -96,7 +96,9 @@ exports.updateItemQty = (req, res, next) => {
             message: "item not found with id  " + req.body.id
           });
         }
-        return res.send(item);
+        item.qtyonstock+=req.body.value;
+        item.save();
+        return res.status(200).send(item);
       })
       .catch(err => {
         console.log(err);
