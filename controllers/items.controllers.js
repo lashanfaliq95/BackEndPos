@@ -13,7 +13,7 @@ exports.createItem = (req, res, next) => {
         next(err);
       });
   } else {
-    return res.status(404).send({
+    return res.status(400).send({
       message: "cannot create item,please insert the required fields"
     });
   }
@@ -40,14 +40,15 @@ exports.getItem = (req, res, next) => {
       .then(item => {
         if (!item) {
           return res.status(404).send({
-            message: "item not found with id  " + req.params.id
+            message: "item not found with id " + req.params.id
           });
         }
-        return res.send(item);
+        return res.status(200).send(item);
       })
       .catch(err => {
-        console.log(err);
-        next(err);
+        return res.status(500).send({
+          message: "please enter a correct item ID"
+        });
       });
   } else {
     return res.status(400).send({
@@ -64,19 +65,14 @@ exports.removeItem = (req, res, next) => {
       .then(item => {
         if (!item) {
           return res.status(404).send({
-            message: "item not found with id  " + req.params.id
+            message: "item not found with id " + req.params.id
           });
         }
         return res.status(200).send(item);
       })
       .catch(err => {
-        if (err.kind === "Objectid") {
-          return res.status(404).send({
-            message: "item not found with itemid" + req.params.id
-          });
-        }
         return res.status(500).send({
-          message: "user not found with username" + req.params.id
+          message: "please enter a correct item ID"
         });
       });
   }
@@ -93,22 +89,16 @@ exports.updateItemQty = (req, res, next) => {
       .then(item => {
         if (!item) {
           return res.status(404).send({
-            message: "item not found with id  " + req.body.id
+            message: "item not found with id " + req.params.id
           });
         }
-        item.qtyonstock+=req.body.value;
+        item.qtyonstock += req.body.value;
         item.save();
         return res.status(200).send(item);
       })
       .catch(err => {
-        console.log(err);
-        if (err.kind === "ObjectId") {
-          return res.status(404).send({
-            message: "item not found with itemid" + req.body.id
-          });
-        }
         return res.status(500).send({
-          message: "user not found with username" + req.body.id
+          message: "please enter a correct item ID"
         });
       });
   }

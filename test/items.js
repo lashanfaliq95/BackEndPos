@@ -77,6 +77,23 @@ describe("Items", () => {
           done();
         });
     });
+
+    it("it should give an error", done => {
+      const item = {
+        name: "burger"
+      };
+      authenticatedUser
+        .post("/items/createitem")
+        .send(item)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a("object");
+          res.body.should.have
+            .property("message")
+            .eql("cannot create item,please insert the required fields");
+          done();
+        });
+    });
   });
 
   /*
@@ -102,17 +119,63 @@ describe("Items", () => {
           });
       });
     });
+
+    it("it should give an error when removing a item using a id which is not a valid object ID ", done => {
+      //An id should be 12 digits to  be a valid objectid
+      const falseId = "1234";
+      authenticatedUser.del("/items/removeitem/" + falseId).end((err, res) => {
+        res.should.have.status(500);
+        res.body.should.be.a("object");
+        res.body.should.have
+          .property("message")
+          .eql("please enter a correct item ID");
+        done();
+      });
+    });
+
+    it("it should give an error when removing a item using a falseid which is a valid objectID", done => {
+      const falseId = "123456789123";
+      authenticatedUser.del("/items/removeitem/" + falseId).end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a("object");
+        res.body.should.have
+          .property("message")
+          .eql("item not found with id " + falseId);
+        done();
+      });
+    });
+
+    it("it should give an error when an Id is not provided", done => {
+      authenticatedUser.del("/items/removeitem/").end((err, res) => {
+        res.should.have.status(404);
+        done();
+      });
+    });
   });
 
   /*
    * Test the get all items
    */
   describe("/GET  items", () => {
-    it("it should get all items", done => {
+    it("it should get all items when no items are available", done => {
       authenticatedUser.get("/items/getallitems").end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.a("array");
+        res.body.should.be.a("array").eql([]);
         done();
+      });
+    });
+    it("it should get all items when items are present", done => {
+      const item = new Items({
+        name: "burger",
+        price: 300,
+        qtyonstock: 5
+      });
+      item.save((err, item) => {
+        authenticatedUser.get("/items/getallitems").end((err, res) => {
+          res.should.have.status(200);
+          // res.body.should.be.a("array").eql([item]);
+          done();
+        });
       });
     });
   });
@@ -120,7 +183,7 @@ describe("Items", () => {
   /*
    * Test the get item
    */
-  describe("/GET  items", () => {
+  describe("/GET  an item", () => {
     it("it should get an item", done => {
       const item = new Items({
         name: "burger",
@@ -133,6 +196,37 @@ describe("Items", () => {
           res.body.should.be.a("object");
           done();
         });
+      });
+    });
+
+    it("it should give an error when removing a item using a id which is not a valid object ID ", done => {
+      //An id should be 12 digits to  be a valid objectid
+      const falseId = "1234";
+      authenticatedUser.get("/items/getitem/" + falseId).end((err, res) => {
+        res.should.have.status(500);
+        res.body.should.be.a("object");
+        res.body.should.have
+          .property("message")
+          .eql("please enter a correct item ID");
+        done();
+      });
+    });
+
+    it("it should give an error when removing a item using a falseid which is a valid objectID", done => {
+      const falseId = "123456789123";
+      authenticatedUser.get("/items/getitem/" + falseId).end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a("object");
+        res.body.should.have
+          .property("message")
+          .eql("item not found with id " + falseId);
+        done();
+      });
+    });
+    it("it should give an error when an Id is not provided", done => {
+      authenticatedUser.get("/items/getitem/").end((err, res) => {
+        res.should.have.status(404);
+        done();
       });
     });
   });
@@ -162,6 +256,46 @@ describe("Items", () => {
             done();
           });
       });
+    });
+
+    it("it should give an error when removing a item using a id which is not a valid object ID ", done => {
+      //An id should be 12 digits to  be a valid objectid
+      const falseId = "1234";
+      authenticatedUser
+        .put("/items/updateitem/" + falseId)
+        .send({ value: 5 })
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.be.a("object");
+          res.body.should.have
+            .property("message")
+            .eql("please enter a correct item ID");
+          done();
+        });
+    });
+
+    it("it should give an error when removing a item using a falseid which is a valid objectID", done => {
+      const falseId = "123456789123";
+      authenticatedUser
+        .put("/items/updateitem/" + falseId)
+        .send({ value: 5 })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a("object");
+          res.body.should.have
+            .property("message")
+            .eql("item not found with id " + falseId);
+          done();
+        });
+    });
+    it("it should give an error when an Id is not provided", done => {
+      authenticatedUser
+        .put("/items/updateitem/")
+        .send({ value: 5 })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
     });
   });
 });
