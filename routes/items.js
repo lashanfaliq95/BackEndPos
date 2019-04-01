@@ -14,7 +14,7 @@ router.delete('/removeitem/:id',requireLogin,items.removeItem);
 router.get('/getitem/:id',requireLogin,items.getItem);
 
 /* Get all items */
-router.get('/getallitems',requireLogin,items.getAllItems);
+router.get('/getallitems',items.getAllItems);
 
 /* Update item */
 router.put('/updateitem/:id',requireLogin,items.updateItemQty);

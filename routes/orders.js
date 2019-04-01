@@ -13,7 +13,7 @@ router.delete('/removeorder/:_id',requireLogin,orders.removeOrder);
 router.get('/getorder/:_id',requireLogin,orders.getOrder);
 
 /* Get all orders*/
-router.get('/getallorders',orders.getAllOrders);
+router.get('/getallorders',requireLogin,orders.getAllOrders);
 
 /* Update order */
 router.put('/updateorder/:_id',requireLogin,orders.updateOrder);
