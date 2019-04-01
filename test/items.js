@@ -124,7 +124,7 @@ describe("Items", () => {
       //An id should be 12 digits to  be a valid objectid
       const falseId = "1234";
       authenticatedUser.del("/items/removeitem/" + falseId).end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
         res.body.should.be.a("object");
         res.body.should.have
           .property("message")
@@ -203,7 +203,7 @@ describe("Items", () => {
       //An id should be 12 digits to  be a valid objectid
       const falseId = "1234";
       authenticatedUser.get("/items/getitem/" + falseId).end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
         res.body.should.be.a("object");
         res.body.should.have
           .property("message")
@@ -265,7 +265,7 @@ describe("Items", () => {
         .put("/items/updateitem/" + falseId)
         .send({ value: 5 })
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           res.body.should.be.a("object");
           res.body.should.have
             .property("message")

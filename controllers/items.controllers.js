@@ -46,7 +46,7 @@ exports.getItem = (req, res, next) => {
         return res.status(200).send(item);
       })
       .catch(err => {
-        return res.status(500).send({
+        return res.status(400).send({
           message: "please enter a correct item ID"
         });
       });
@@ -71,7 +71,7 @@ exports.removeItem = (req, res, next) => {
         return res.status(200).send(item);
       })
       .catch(err => {
-        return res.status(500).send({
+        return res.status(400).send({
           message: "please enter a correct item ID"
         });
       });
@@ -97,7 +97,7 @@ exports.updateItemQty = (req, res, next) => {
         return res.status(200).send(item);
       })
       .catch(err => {
-        return res.status(500).send({
+        return res.status(400).send({
           message: "please enter a correct item ID"
         });
       });

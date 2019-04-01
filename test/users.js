@@ -51,7 +51,7 @@ describe("Users", () => {
         .post("/users/createuser")
         .send(user)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           res.body.should.be.a("object");
           done();
         });
@@ -67,7 +67,7 @@ describe("Users", () => {
         .post("/users/createuser")
         .send(user)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           res.body.should.be.a("object");
           done();
         });
@@ -156,7 +156,7 @@ describe("Users", () => {
           .post("/users/authenticate")
           .send(objFalse)
           .end((err, res) => {
-            res.should.have.status(500);
+            res.should.have.status(400);
             res.body.should.have
               .property("message")
               .eql("Please insert the necassary fields");

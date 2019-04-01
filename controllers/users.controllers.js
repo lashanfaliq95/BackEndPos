@@ -29,7 +29,7 @@ exports.authenticate = (req, res, next) => {
         next(err);
       });
   } else {
-    return res.status(500).send({
+    return res.status(400).send({
       message: "Please insert the necassary fields"
     });
   }
@@ -48,7 +48,7 @@ exports.createUser = (req, res, next) => {
         return next(err);
       });
   } else {
-    return res.status(500).send({
+    return res.status(400).send({
       message: "Please insert the necassary fields"
     });
   }
