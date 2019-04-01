@@ -41,6 +41,37 @@ describe("Users", () => {
           done();
         });
     });
+
+    it("it should return an error when a field is missing", done => {
+      const user = {
+        username: "admin"
+      };
+      chai
+        .request(server)
+        .post("/users/createuser")
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.be.a("object");
+          done();
+        });
+    });
+
+    it("it should return an error when a field is empty", done => {
+      const user = {
+        username: "",
+        password: ""
+      };
+      chai
+        .request(server)
+        .post("/users/createuser")
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.be.a("object");
+          done();
+        });
+    });
   });
 
   /*
@@ -62,6 +93,90 @@ describe("Users", () => {
             res.should.have.status(200);
             done();
           });
+      });
+    });
+
+    it("it should return an unauthorized error", done => {
+      const objReal = {
+        username: "admin",
+        password: "admin"
+      };
+      const objFalse = {
+        username: "admin",
+        password: "fake"
+      };
+      const user = new Users(objReal);
+      user.save((err, user) => {
+        chai
+          .request(server)
+          .post("/users/authenticate")
+          .send(objFalse)
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      });
+    });
+
+    it("it should return a not found error", done => {
+      const objReal = {
+        username: "admin",
+        password: "admin"
+      };
+      const objFalse = {
+        username: "fake",
+        password: "fake"
+      };
+      const user = new Users(objReal);
+      user.save((err, user) => {
+        chai
+          .request(server)
+          .post("/users/authenticate")
+          .send(objFalse)
+          .end((err, res) => {
+            res.should.have.status(404);
+            res.body.should.have
+              .property("message")
+              .eql("user not found with username " + objFalse.username);
+            done();
+          });
+      });
+    });
+
+    it("it should return an bad request", done => {
+      const objReal = {
+        username: "admin",
+        password: "admin"
+      };
+      const objFalse = {};
+      const user = new Users(objReal);
+      user.save((err, user) => {
+        chai
+          .request(server)
+          .post("/users/authenticate")
+          .send(objFalse)
+          .end((err, res) => {
+            res.should.have.status(500);
+            res.body.should.have
+              .property("message")
+              .eql("Please insert the necassary fields");
+            done();
+          });
+      });
+    });
+  });
+
+  /*
+   * Test the logout
+   */
+  describe("/POST create user", () => {
+    it("it should logout the user", done => {
+    chai
+      .request(server)
+      .post("/users/logout")
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
       });
     });
   });

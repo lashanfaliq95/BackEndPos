@@ -20,22 +20,18 @@ exports.authenticate = (req, res, next) => {
             res.status(200).send(user);
           });
         } else {
-          res.status(204).send({
-            message: "username does not match password"
+          res.status(401).send({
+            message: "username and password doesn't match"
           });
         }
       })
       .catch(err => {
-        console.log(err);
-        if (err.kind === "ObjectId") {
-          return res.status(404).send({
-            message: "user not found with username" + req.body.username
-          });
-        }
-        return res.status(500).send({
-          message: "user not found with username" + req.body.username
-        });
+        next(err);
       });
+  } else {
+    return res.status(500).send({
+      message: "Please insert the necassary fields"
+    });
   }
 };
 
@@ -51,14 +47,24 @@ exports.createUser = (req, res, next) => {
       .catch(err => {
         return next(err);
       });
+  } else {
+    return res.status(500).send({
+      message: "Please insert the necassary fields"
+    });
   }
 };
 
 // Create a new user
 exports.logout = (req, res, next) => {
   //invalidate the session
-  req.session.destroy();
-  return res.status(200).send({
-    message: "user session successfully deleted"
+  req.session.destroy(err => {
+    if (!err) {
+      return res.status(200).send({
+        message: "user session successfully deleted"
+      });
+    }
+    else{
+      next(err)
+    }
   });
 };
