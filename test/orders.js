@@ -50,7 +50,7 @@ describe("Orders", () => {
 
     tempUser = await user.save();
     tempItem = await item.save();
-    tempItemOne=await item1.save();
+    tempItemOne = await item1.save();
   });
 
   after(done => {
@@ -92,6 +92,19 @@ describe("Orders", () => {
           done();
         });
     });
+
+    it("it should return an error", done => {
+      const order = {
+        items: [{ item: tempItem._id, orderamount: 0 }]
+      };
+      authenticatedUser
+        .post("/orders/createorder")
+        .send(order)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
   });
 
   describe("/GET an order", () => {
@@ -114,9 +127,48 @@ describe("Orders", () => {
           });
       });
     });
+
+    it("it should give an error when getting a order using a id which is not a valid object ID ", done => {
+      //An id should be 12 digits to  be a valid objectid
+      const falseId = "1234";
+      authenticatedUser.get("/orders/getorder/" + falseId).end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a("object");
+        res.body.should.have
+          .property("message")
+          .eql("please enter a correct order ID");
+        done();
+      });
+    });
+
+    it("it should give an error when getting a order using a falseid which is a valid objectID", done => {
+      const falseId = "123456789123";
+      authenticatedUser.get("/orders/getorder/" + falseId).end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a("object");
+        res.body.should.have
+          .property("message")
+          .eql("order not found with id " + falseId);
+        done();
+      });
+    });
+    it("it should give an error when an Id is not provided", done => {
+      authenticatedUser.get("/orders/getorder/").end((err, res) => {
+        res.should.have.status(404);
+        done();
+      });
+    });
   });
 
   describe("/GET all orders", () => {
+    it("it should get all orders", done => {
+      authenticatedUser.get("/orders/getallorders").end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a("array").eql([]);
+        done();
+      });
+    });
+
     it("it should get all orders", done => {
       const order1 = new Orders({
         items: [{ item: tempItem._id, orderamount: 0 }],
@@ -220,5 +272,4 @@ describe("Orders", () => {
       });
     });
   });
-
 });

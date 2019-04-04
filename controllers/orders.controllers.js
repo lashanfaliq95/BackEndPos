@@ -56,7 +56,7 @@ exports.getOrder = (req, res, next) => {
       .then(order => {
         if (!order) {
           return res.status(404).send({
-            message: "order not found with id  " + req.params._id
+            message: "order not found with id " + req.params._id
           });
         }
         console.log(order);
@@ -68,7 +68,7 @@ exports.getOrder = (req, res, next) => {
       });
   } else {
     return res.status(400).send({
-      message: "insert a correct order _id"
+      message: "please enter a correct order ID"
     });
   }
 };
@@ -84,7 +84,7 @@ exports.updateOrder = (req, res, next) => {
       .then(order => {
         if (!order) {
           return res.status(404).send({
-            message: "order not found with id  " + req.params._id
+            message: "order not found with id " + req.params._id
           });
         }
         order.status = req.body.status;
@@ -97,7 +97,7 @@ exports.updateOrder = (req, res, next) => {
       });
   } else {
     return res.status(400).send({
-      message: "insert a correct order _id"
+      message: "insert a correct order ID"
     });
   }
 };
