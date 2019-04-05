@@ -17,7 +17,9 @@ exports.authenticate = (req, res, next) => {
           req.session.regenerate(function(err) {
             req.session.user = user;
             req.user = user;
-            res.status(200).send(user);
+            res.status(200).send({
+              message:"user authenticated"
+            });
           });
         } else {
           res.status(401).send({
@@ -42,7 +44,9 @@ exports.createUser = (req, res, next) => {
     newUser
       .save()
       .then(data => {
-        return res.send(200, data);
+        return res.status(200).send({
+          message:"user created sucessfully"
+        });
       })
       .catch(err => {
         return next(err);

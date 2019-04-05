@@ -35,9 +35,6 @@ describe("Users", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");
-          res.body.should.have.property("username").eql(user.username);
-          //password is encrypted with bcrypt so it has to decrypted before equalising
-          res.body.should.have.property("password");
           done();
         });
     });
