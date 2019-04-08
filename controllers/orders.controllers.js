@@ -193,7 +193,6 @@ exports.removeItemsOnOrder = (req, res, next) => {
       .populate("items.item")
       .populate("createdby")
       .then(order => {
-       
         if (!order) {
           return res.status(404).send({
             message: "order not found with id  " + req.params._id
@@ -201,7 +200,7 @@ exports.removeItemsOnOrder = (req, res, next) => {
         }
         if (mongoose.Types.ObjectId.isValid(req.params.item_id)) {
           const items = order.items;
-          
+
           //find the index of the item we need to change
           index = items.findIndex(x => x.item._id == req.params.item_id);
           const orderamount = items[index].orderamount;
@@ -210,10 +209,9 @@ exports.removeItemsOnOrder = (req, res, next) => {
           const newqty = items[index].item.qtyonstock + orderamount;
           item.setItemQtyThroughOrder(items[index].item._id, newqty);
 
-         
           //remove item from array
           let removeditem = items[index].item;
-          removeditem.qtyonstock=newqty;
+          removeditem.qtyonstock = newqty;
           order.items.splice(index, 1);
           order.save();
 

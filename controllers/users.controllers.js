@@ -18,7 +18,7 @@ exports.authenticate = (req, res, next) => {
             req.session.user = user;
             req.user = user;
             res.status(200).send({
-              message:"user authenticated"
+              message: "user authenticated"
             });
           });
         } else {
@@ -45,7 +45,7 @@ exports.createUser = (req, res, next) => {
       .save()
       .then(data => {
         return res.status(200).send({
-          message:"user created sucessfully"
+          message: "user created sucessfully"
         });
       })
       .catch(err => {
@@ -66,9 +66,8 @@ exports.logout = (req, res, next) => {
       return res.status(200).send({
         message: "user session successfully deleted"
       });
-    }
-    else{
-      next(err)
+    } else {
+      next(err);
     }
   });
 };
