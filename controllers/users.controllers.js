@@ -17,9 +17,7 @@ exports.authenticate = (req, res, next) => {
           req.session.regenerate(function(err) {
             req.session.user = user;
             req.user = user;
-            res.status(200).send({
-              message: "user authenticated"
-            });
+            res.status(200).send({username:req.body.username});
           });
         } else {
           res.status(401).send({

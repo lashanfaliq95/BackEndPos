@@ -4,7 +4,7 @@ const orders=require('../controllers/orders.controllers');
 const requireLogin=require('../controllers/require_login')
 
 /* Add order */
-router.post('/createorder',orders.createOrder);
+router.post('/createorder',requireLogin,orders.createOrder);
 
 /* Remove order */
 router.delete('/removeorder/:_id',requireLogin,orders.removeOrder);

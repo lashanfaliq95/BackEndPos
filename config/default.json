@@ -1,5 +1,5 @@
 {
   "dbConfig": {
-    "url": "mongodb://localhost:27017/syscopos"
+    "url": "mongodb://<dbuser>:<dbpassword>@ds239936.mlab.com:39936/heroku_l674m94n"
   }
 }
