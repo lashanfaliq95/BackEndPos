@@ -24,7 +24,7 @@ app.set("view engine", "jade");
 
 //https://stackoverflow.com/questions/49189058/cors-allow-credentials-nodejs-express
 var corsOptions = {
-//  origin: "http://localhost:3000",
+ origin: "https://minipos-lashan.herokuapp.com",
   credentials: true
 };
 
