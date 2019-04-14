@@ -1,5 +1,5 @@
 {
   "dbConfig": {
-    "url": "mongodb://<dbuser>:<dbpassword>@ds239936.mlab.com:39936/heroku_l674m94n"
+    "url": "mongodb://lashan:lashan123@ds239936.mlab.com:39936/heroku_l674m94n"
   }
 }
