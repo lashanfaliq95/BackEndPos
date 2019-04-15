@@ -5,10 +5,10 @@ const requireLogin=require('../controllers/require_login');
 
 
 /* Add item */
-router.post('/createitem',requireLogin,items.createItem);
+router.post('/createitem',items.createItem);
 
 /* Remove item */
-router.delete('/removeitem/:id',requireLogin,items.removeItem);
+router.delete('/removeitem/:id',items.removeItem);
 
 /* Get item */
 router.get('/getitem/:id',requireLogin,items.getItem);
