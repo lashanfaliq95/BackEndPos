@@ -80,12 +80,11 @@ exports.removeItem = (req, res, next) => {
 
 // update an items quantity on stock
 exports.updateItemQty = (req, res, next) => {
+  const value = parseInt(req.body.value);
+  console.log(value)
   if (req.params.id) {
     item
-      .findOneAndUpdate(
-        { _id: req.params.id },
-        { $inc: { qtyonstock: req.body.value } }
-      )
+      .findOneAndUpdate({ _id: req.params.id }, { $inc: { qtyonstock: value } })
       .then(item => {
         if (!item) {
           return res.status(404).send({
@@ -117,9 +116,9 @@ exports.setItemQtyThroughOrder = (item_id, newQty) => {
 };
 
 // update an items quantity when an item is added to an order
-exports.AddItemToOrder = (item_id) => {
+exports.AddItemToOrder = item_id => {
   item
-    .findOneAndUpdate({ _id: item_id }, { $inc: { qtyonstock: -1}})
+    .findOneAndUpdate({ _id: item_id }, { $inc: { qtyonstock: -1 } })
     .then(item => {
       console.log(item);
     })

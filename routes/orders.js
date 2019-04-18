@@ -7,10 +7,10 @@ const requireLogin=require('../controllers/require_login')
 router.post('/createorder',orders.createOrder);
 
 /* Remove order */
-router.delete('/removeorder/:_id',requireLogin,orders.removeOrder);
+router.delete('/removeorder/:_id',orders.removeOrder);
 
 /* Get order */
-router.get('/getorder/:_id',requireLogin,orders.getOrder);
+router.get('/getorder/:_id',orders.getOrder);
 
 /* Get all orders*/
 router.get('/getallorders',requireLogin,orders.getAllOrders);
@@ -22,7 +22,7 @@ router.put('/updateorder/:_id',requireLogin,orders.updateOrder);
 router.put('/updateorderitems/:_id/:item_id',requireLogin,orders.updateItemsOnOrder);
 
 /* remove items on order*/
-router.put('/removeorderitems/:_id/:item_id',requireLogin,orders.removeItemsOnOrder);
+router.put('/removeorderitems/:_id/:item_id',orders.removeItemsOnOrder);
 
 /* Update items on order*/
 router.put('/addorderitems/:_id/:item_id',requireLogin,orders.addItemToAnOrder);
